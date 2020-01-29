@@ -126,3 +126,108 @@ let quoteSample4 = "3 blind mice."
 let myRegex4 = /[^aeiou0-9]/gi 
 let result8 = quoteSample.match(myRegex)
 console.log(result8)
+
+//To match a character (or group of characters) that appears ONE or more times in a row, you can use the + character.
+//The character or pattern has to be present consecutively; repeat one after the other.
+// /a+/g would find one match in "abc" and return ["a"]. /a+/g would find a single match in "aabc" and return ["aa"]
+// /a+/g would find two matches in "abab" and return ["a", "a"] because there is a b between them, and the a are not consecutive
+// /a+/g would not find matches in string "bcd" because there is no "a".
+let difficultSpelling = "Mississippi"
+let myRegex5 = /s+/ig // finding matches where the s occurs one or more times in the word Mississippi
+let result9 = difficultSpelling.match(myRegex5)
+console.log(result9)
+
+let crowd = 'P1P2P3P4P5P6CCCP7P8P9'
+let reCriminals = /c+/gi //  regex that finds one or C's in a group of letters/numbers. /c/ returns ['C', 'C', 'C']
+let matchedCriminals = crowd.match(reCriminals)
+console.log(matchedCriminals)
+
+//The * or star method matches characters that occur zero or more times.
+let soccerWord = "gooooooooal!"
+let gPhrase = "gut feeling"
+let oPhrase = "over the moon"
+let goRegex = /go*/
+soccerWord.match(goRegex) // Returns ["goooooooo"]
+gPhrase.match(goRegex) // Returns ["g"]
+oPhrase.match(goRegex) // Returns null
+
+//You can use the ? character to change results to lazy matching; the smallest sub-string possible to fit the pattern.
+//"titanic" matched against the adjusted regex of /t[a-z]*?i/ returns ["ti"].
+// Creating regex to return the HTML tag <h1> and not the text "<h1>Winter is coming</h1>"
+let text = "<h1>Winter is coming</h1>"
+let winterRegex = /<h1>?/
+let result11 = text.match(winterRegex)
+console.log(result11)
+
+//The ^ (caret) character can be used to search for patterns in specific positions in strings. 
+//Specifically, the caret is used to search for patterns at the BEGINNING of strings.
+let firstString = "Ricky is first and can be found."
+let firstRegex = /^Ricky/
+firstRegex.test(firstString)
+// Returns true
+let notFirst = "You can't find Ricky now."
+firstRegex.test(notFirst)
+// Returns false
+
+let rickyAndCal = "Cal and Ricky both like racing."
+let calRegex = /^Cal/ // finding 'Cal' at the beginning of string rickyAndCal 
+let result12 = calRegex.test(rickyAndCal)
+console.log(result12)
+
+//You can search the END of strings using the dollar sign character $ at the end of the regex, aka anchor character.
+let theEnding = "This is a never ending story"
+let storyRegex = /story$/
+storyRegex.test(theEnding)
+// Returns true
+let noEnding = "Sometimes a story will have to end"
+storyRegex.test(noEnding)
+// Returns false
+
+let caboose = "The last car on a train is the caboose"
+let lastRegex = /caboose$/ // using anchor character to match the string caboose at the end of the string
+let result13 = lastRegex.test(caboose)
+console.log(result13)
+
+//Shorthand Character Classes: Matching All Letters and Numbers
+//  \w shortcut is equal to [A-Za-z0-9_]. This character class matches upper and lowercase letters plus numbers. 
+//This character class also includes the underscore character (_).
+let longHand = /[A-Za-z0-9_]+/
+let shortHand = /\w+/
+let numbers = "42"
+let varNames = "important_var"
+longHand.test(numbers) // Returns true
+shortHand.test(numbers) // Returns true
+longHand.test(varNames) // Returns true
+shortHand.test(varNames) // Returns true
+
+let quoteSample5 = "The five boxing wizards jump quickly.";
+let alphabetRegexV2 = /\w/gi // Using shorthand character class \w to count the number of alphanumeric characters 
+let result14 = quoteSample5.match(alphabetRegexV2).length
+console.log(result14)
+
+//Shorthand Character Classes: Matching Everything Except All Letters and Numbers
+//You can search for the opposite of the \w with \W. This shortcut is the same as [^A-Za-z0-9_].
+let shortHand2 = /\W/
+let numbers2 = "42%"
+let sentence = "Coding!"
+numbers2.match(shortHand2) // Returns ["%"]
+sentence.match(shortHand2) // Returns ["!"]
+
+let quoteSample6 = "The five boxing wizards jump quickly."
+let nonAlphabetRegex = /\W/gi //Using shorthand character class \W to count the number of non-alphanumeric characters in quote/string
+let result15 = quoteSample6.match(nonAlphabetRegex).length
+console.log(result15)
+
+//Shorthand Character Classes: Matching All Numbers or Digits
+//The shortcut to look for digit characters is \d. This is equal to the character class [0-9], which looks for a single character of any number between zero and nine.
+let movieName = "2001: A Space Odyssey"
+let numRegex = /\d/gi // Using shorthand character class \d to count how many digits are in movie titles
+let result16 = movieName.match(numRegex).length
+console.log(result16)
+
+//Shorthand Character Classes: Matching All Non-Numbers or Digits
+//The shortcut to look for non-digit characters is \D. This is equal to the character class [^0-9], which looks for a single character that is not a number between zero and nine.
+let movieName2 = "2001: A Space Odyssey"
+let noNumRegex = /\D/gi // Using shorthand character class for non-digits \D to count how many non-digits are in movie titles.
+let result17 = movieName2.match(noNumRegex).length
+console.log(result17)
