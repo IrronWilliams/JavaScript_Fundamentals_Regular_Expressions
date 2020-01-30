@@ -191,9 +191,10 @@ let lastRegex = /caboose$/ // using anchor character to match the string caboose
 let result13 = lastRegex.test(caboose)
 console.log(result13)
 
-//Shorthand Character Classes: Matching All Letters and Numbers
-//  \w shortcut is equal to [A-Za-z0-9_]. This character class matches upper and lowercase letters plus numbers. 
-//This character class also includes the underscore character (_).
+/* Shorthand Character Classes: Matching All Letters and Numbers
+\w shortcut is equal to [A-Za-z0-9_]. This character class matches upper and lowercase letters plus numbers. (lower case w)
+This character class also includes the underscore character (_).
+*/
 let longHand = /[A-Za-z0-9_]+/
 let shortHand = /\w+/
 let numbers = "42"
@@ -204,12 +205,12 @@ longHand.test(varNames) // Returns true
 shortHand.test(varNames) // Returns true
 
 let quoteSample5 = "The five boxing wizards jump quickly.";
-let alphabetRegexV2 = /\w/gi // Using shorthand character class \w to count the number of alphanumeric characters 
+let alphabetRegexV2 = /\w/gi // Using shorthand character class \w to count the number of alphanumeric characters (lower case w) 
 let result14 = quoteSample5.match(alphabetRegexV2).length
 console.log(result14)
 
-//Shorthand Character Classes: Matching Everything Except All Letters and Numbers
-//You can search for the opposite of the \w with \W. This shortcut is the same as [^A-Za-z0-9_].
+/*Shorthand Character Classes: Matching Everything Except All Letters and Numbers
+You can search for the opposite of the \w with \W. This shortcut is the same as [^A-Za-z0-9_]. (upper case W) */
 let shortHand2 = /\W/
 let numbers2 = "42%"
 let sentence = "Coding!"
@@ -217,19 +218,21 @@ numbers2.match(shortHand2) // Returns ["%"]
 sentence.match(shortHand2) // Returns ["!"]
 
 let quoteSample6 = "The five boxing wizards jump quickly."
-let nonAlphabetRegex = /\W/gi //Using shorthand character class \W to count the number of non-alphanumeric characters in quote/string
+let nonAlphabetRegex = /\W/gi //Using shorthand character class \W to count the number of non-alphanumeric characters in quote/string (upper case W)
 let result15 = quoteSample6.match(nonAlphabetRegex).length
 console.log(result15)
 
-//Shorthand Character Classes: Matching All Numbers or Digits
-//The shortcut to look for digit characters is \d. This is equal to the character class [0-9], which looks for a single character of any number between zero and nine.
+/* Shorthand Character Classes: Matching All Numbers or Digits
+The shortcut to look for digit characters is \d. This is equal to the character class [0-9], 
+which looks for a single character of any number between zero and nine. (lower case d*/
 let movieName = "2001: A Space Odyssey"
-let numRegex = /\d/gi // Using shorthand character class \d to count how many digits are in movie titles
+let numRegex = /\d/gi // Using shorthand character class \d to count how many digits are in movie titles (lower case d)
 let result16 = movieName.match(numRegex).length
 console.log(result16)
 
-//Shorthand Character Classes: Matching All Non-Numbers or Digits
-//The shortcut to look for non-digit characters is \D. This is equal to the character class [^0-9], which looks for a single character that is not a number between zero and nine.
+/*Shorthand Character Classes: Matching All Non-Numbers or Digits
+The shortcut to look for non-digit characters is \D. This is equal to the character class [^0-9], 
+which looks for a single character that is not a number between zero and nine. (upper case D*/
 let movieName2 = "2001: A Space Odyssey"
 let noNumRegex = /\D/gi // Using shorthand character class for non-digits \D to count how many non-digits are in movie titles.
 let result17 = movieName2.match(noNumRegex).length
@@ -313,8 +316,107 @@ let multipleA = /a{3,5}h/ //regex for the letter a appearing 3 to 5 times in the
 multipleA.test(A4) // Returns true
 multipleA.test(A2) // Returns false
 
-let ohStr = "Ohhh no";
-let ohRegex = /Oh{3,6}\sno/; // regex to match the entire phrase "Oh no" only when it has 3 to 6 letter h.  \s accounts for whitespace'
-let result21 = ohRegex.test(ohStr); 
+let ohStr = "Ohhh no"
+let ohRegex = /Oh{3,6}\sno/ // regex to match the entire phrase "Oh no" only when it has 3 to 6 letter h's. \s accounts for whitespace'
+let result21 = ohRegex.test(ohStr)
 console.log(result21)
 
+/*
+Specifying only the Lower number of matches with no upper limit:
+To only specify the lower number of patterns, keep the first number followed by a comma.
+*/
+//Matching only the string "hah" with the letter a appearing at least 3 times, 
+let A5 = "haaaah"
+let A6 = "haah"
+let A100 = "h" + "a".repeat(100) + "h"
+let multipleA2 = /ha{3,}h/  //specifying 3 as the lower number and no upper limit. match word when letter a appears 3x 
+multipleA2.test(A5) // Returns true
+multipleA2.test(A6) // Returns false
+multipleA2.test(A100) // Returns true
+
+let haStr = "Hazzzzah"
+let haRegex = /Haz{4,}ah/ // specifying 4 as the lower number w no upper limit. match word Hazzah when has 4+ letter z's 
+let result22 = haRegex.test(haStr)
+console.log(result22)
+
+/*
+Specifying Exact number of matches:
+To specify a certain number of patterns, just have that one number between the curly brackets.
+*/
+//Matching only the word "hah" with the letter a 3 times, regex would be /ha{3}h/.
+let A7 = "haaaah"
+let A8 = "haaah"
+let A101 = "h" + "a".repeat(100) + "h"
+let multipleHA = /ha{3}h/
+multipleHA.test(A7) // Returns false
+multipleHA.test(A8) // Returns true
+multipleHA.test(A101) // Returns false
+
+let timStr = "Timmmmber"
+let timRegex = /Tim{4}ber/ // matching word Timber only when it has exactly 4 letter m's
+let result23 = timRegex.test(timStr)
+console.log(result23)
+
+/*
+Checking for All or None:
+Can specify the possible existence of an element with a question mark, ?. This checks for zero or one of the 
+preceding element. You can think of this symbol as saying the previous element is optional.
+*/
+//Using the question mark to match both spellings of color. Saying the letter u is optional, so matching color and colour
+let american = "color"
+let british = "colour"
+let rainbowRegex= /colou?r/
+rainbowRegex.test(american) // Returns true
+rainbowRegex.test(british) // Returns true
+
+let favWord = "favorite"
+let favRegex = /favou?rite/ // matching the words favorite and favourite 
+let result24 = favRegex.test(favWord)
+console.log(result24)
+
+/*
+Lookaheads are patterns that tell JavaScript to look-ahead in your string to check for patterns further along. 
+This can be useful when you want to search for multiple patterns over the same string.
+
+There are two kinds of lookaheads: positive lookahead and negative lookahead.
+
+A positive lookahead will look to make sure the element in the search pattern is there, but won't actually match it.
+A positive lookahead is used as (?=...) where the ... is the required part that is not matched.
+
+On the other hand, a negative lookahead will look to make sure the element in the search pattern is not there. 
+A negative lookahead is used as (?!...) where the ... is the pattern that you do not want to be there. 
+The rest of the pattern is returned if the negative lookahead part is not present.
+*/
+let quit = "qu"
+let noquit = "qt"
+let quRegex= /q(?=u)/ //positive lookahead; make sure u 'is' in the word quit
+let qRegex = /q(?!u)/ //negative lookahead; make sure u 'is not' in the word quit
+quit.match(quRegex) // Returns ["q"]
+noquit.match(qRegex) // Returns ["q"]
+
+//Using lookaheads to check two or more patterns in one string. 
+//Password checker that looks for between 3 and 6 characters and at least one number:
+let password = "abc123"
+let checkPass = /(?=\w{3,6})(?=\D*\d)/
+checkPass.test(password) // Returns true
+
+/*
+Using lookaheads to match passwords criteria:
+greater than 5 characters long
+do not begin with numbers 
+and have two consecutive digits.
+
+This first lookahead is only used to find a string consisting of a certain amount of characters. 
+(?=\w{6})  ---> positive lookahead makes sure there are more than 5 characters in password. 
+
+The second lookahead is used to check for 2 consecutive numerical values at the end of the string. (?=\D+\d{2})
+^ = beginning of input
+?= is positive lookahead.  
+\w shortcut is equal to [A-Za-z0-9_] which matches all letters and numbers. Coupled with ?= means w{6} is in password or meets criteria of having more than 5 characters 
+\D shortcut is equal to the character class [^0-9] which matches all non-numbers and digits. The ^ means negated. So password does not begin with numbers. 
+\d shortcut is equal to the character class [0-9].  +d{2} specifies the exact amount of consecutive numbers i want to appear at end of string
+*/
+let sampleWord = "astronaut"
+let pwRegex = /^(?=\w{6})(?=\D+\d{2})/ 
+let result25 = pwRegex.test(sampleWord)
+console.log(result25)
