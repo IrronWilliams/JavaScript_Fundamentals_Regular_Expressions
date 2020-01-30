@@ -6,6 +6,9 @@ JavaScript has multiple ways to use regexes. One way to test a regex is using th
 The .test() method takes the regex, applies it to a string (which is placed inside the parentheses), 
 and returns true or false if your pattern finds something or not.
 
+The plus sign + looks for one or more characters
+The asterisk * looks for zero or more characters.
+
 */
 
 let testStr = "bestCodeSchool"
@@ -231,3 +234,87 @@ let movieName2 = "2001: A Space Odyssey"
 let noNumRegex = /\D/gi // Using shorthand character class for non-digits \D to count how many non-digits are in movie titles.
 let result17 = movieName2.match(noNumRegex).length
 console.log(result17)
+
+/*Biz rules for checking usernames in a database. 
+Usernames can only use alpha-numeric characters.
+
+The only numbers in the username have to be at the end. There can be zero or more of them at the end.
+
+Username letters can be lowercase and uppercase.
+
+Usernames have to be at least two characters long. 
+A two-character username can only use alphabet letters as characters.
+*/
+let username = "JackOfAllTrades"
+let userCheck = /^[a-z]([0-9][0-9]+|[a-z]+\d*)$/i //Approach 1 regex for biz rules
+let userCheck2 = /^[a-z]([0-9]{2,}|[a-z]+\d*)$/i //Approach 2 regex for biz rules
+let result18 = userCheck.test(username)
+console.log(result18)
+
+/*
+Approach 1
+    ^ - start of input
+    [a-z] - first character is a letter
+    [0-9][0-9]+ - ends with two or more numbers
+    | - or
+    [a-z]+ - has one or more letters next
+    \d* - and ends with zero or more numbers
+    $ - end of input
+    i - ignore case of input
+
+Approach 2
+    ^ - start of input
+    [a-z] - first character is a letter
+    [0-9]{2,0} - ends with two or more numbers
+    | - or
+    [a-z]+ - has one or more letters next
+    \d* - and ends with zero or more numbers
+    $ - end of input
+    i - ignore case of input
+*/
+
+/*Matching Whitespace:
+Can search for whitespace using \s, This pattern not only matches whitespace, but 
+also carriage return, tab, form feed, and new line characters. You can think of it as similar to the character 
+class [ \r\t\f\n\v]. */
+let whiteSpace = "Whitespace. Whitespace everywhere!"
+let spaceRegex = /\s/g
+whiteSpace.match(spaceRegex)
+// Returns [" ", " "]
+
+let sample = "Whitespace is important in separating words"
+let countWhiteSpace = /\s/gi //looking for multiple whitespace characters in a string
+let result19 = sample.match(countWhiteSpace)
+console.log(result19)
+
+/*Matching Non-whitespace characters:
+Can search for non-whitespace using \S.  This pattern will not match whitespace, carriage return, tab, form feed, 
+and new line characters. You can think of it being similar to the character class [^ \r\t\f\n\v]. */
+let whiteSpace2 = "Whitespace. Whitespace everywhere!"
+let nonSpaceRegex = /\S/g
+whiteSpace2.match(nonSpaceRegex).length // Returns 32
+
+let sample2 = "Whitespace is important in separating words"
+let countNonWhiteSpace = /\S/g //looking for multiple non-whitespace characters in a string
+let result20 = sample2.match(countNonWhiteSpace)
+console.log(result20)
+
+/*
+Specifying Upper and Lower Number of Matches with Quantify Specifiers:
+Can specify the lower and upper number of patterns with quantity specifiers. Quantity specifiers are used 
+with curly brackets ({ and }). 
+You put two numbers between the curly brackets - for the lower and upper number of patterns.
+*/
+
+//Matching only the letter 'a' appearing between 3 and 5 times in the string "ah"; regex = /a{3,5}h/.
+let A4 = "aaaah"
+let A2 = "aah"
+let multipleA = /a{3,5}h/ //regex for the letter a appearing 3 to 5 times in the string ah
+multipleA.test(A4) // Returns true
+multipleA.test(A2) // Returns false
+
+let ohStr = "Ohhh no";
+let ohRegex = /Oh{3,6}\sno/; // regex to match the entire phrase "Oh no" only when it has 3 to 6 letter h.  \s accounts for whitespace'
+let result21 = ohRegex.test(ohStr); 
+console.log(result21)
+
