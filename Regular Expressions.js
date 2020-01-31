@@ -420,3 +420,244 @@ let sampleWord = "astronaut"
 let pwRegex = /^(?=\w{6})(?=\D+\d{2})/ 
 let result25 = pwRegex.test(sampleWord)
 console.log(result25)
+
+/*
+Can use () to check for mixed grouping of characters. 
+To find either Penguin or Pumpkin in a string, can use the following Regular Expression: /P(engu|umpk)in/g
+*/
+let testStr3 = "Pumpkin";
+let testRegex3 = /P(engu|umpk)in/ //finding Penguin or Pumpkin in a string
+testRegex3.test(testStr3) //checking whether in the test string by using the test() method.
+// Returns true
+
+//Checks for names Franklin Roosevelt or Eleanor Roosevelt in a case sensitive manner and makes
+//concessions for middle names.     
+let myString4 = "Eleanor Roosevelt"
+let myRegex6 = /(Franklin|Eleanor).*Roosevelt/i //.*used to allow for middle names.  asterisk * looks for zero or more characters.
+let result26 = myRegex6.test(myString4)
+console.log(result26)
+
+/*
+Can search for repeat substrings using capture groups. Parentheses, ( and ), are used to find repeat substrings. 
+You put the regex of the pattern that will repeat in between the parentheses. To specify where that repeat string 
+will appear, you use a backslash (\) and then a number. This number starts at 1 and increases with each additional 
+capture group you use. An example would be \1 to match the first group. 
+
+Using the .match() method on a string will return an array with the string it matches, along with its capture group.
+*/
+//Matches any word that occurs twice separated by a space:
+let repeatStr = "regex regex"
+let repeatRegex2 = /(\w+)\s\1/
+repeatRegex2.test(repeatStr) // Returns true
+repeatStr.match(repeatRegex2) // Returns ["regex regex", "regex"]
+
+/*
+for code below, result will match only test test because \1 stands for the same text as most recently matched 
+by the 1st capturing group (test).
+
+To literally translate the regex, it would look something like this:
+let re = /(test)\s\1/
+let literalRe = /test\stest/
+
+let testString = "test test test"
+let reRegex = /(test)\s\1/
+let result27 = reRegex.test(testString)
+console.log(result27)
+
+
+For code below, result will match whole test test test because:
+\1 repeats (test)
+\2 repeats (\s)
+
+let testString = "test test test";
+let reRegex = /(test)(\s)\1\2\1/;
+let result = reRegex.test(testString);
+*/
+
+//Using capture groups to match numbers that are repeated only three times in a string, each separated by a space.
+let repeatNum = "42 42 42"
+let reRegex2 = /^(\d+)\s\1\s\1$/
+let result28 = reRegex.test(repeatNum)
+console.log(result28)
+
+
+/*
+Can search and replace text in a string using .replace() on a string. The inputs for .replace() is first the 
+regex pattern you want to search for. The second parameter is the string to replace the match or a function to 
+do something.
+ */
+
+let wrongText = "The sky is silver."
+let silverRegex = /silver/
+wrongText.replace(silverRegex, "blue")
+// Returns "The sky is blue
+
+/*Can also access capture groups in the replacement string with dollar signs ($). */
+"Code Camp".replace(/(\w+)\s(\w+)/, '$2 $1')
+// Returns "Camp Code"
+
+
+/*Writing a regex using three capture groups that will search for each word in the string "one two three". 
+Updating replaceText variable to replace "one two three" with the string "three two one" 
+Assigning the result to the result variable. 
+*/
+let str = "one two three"
+let fixRegex = /(\w+)\s(\w+)\s(\w+)/ // regex using 3 capture groups to search for each word in string
+let replaceText = "$3 $2 $1" // updating variable to replace one, two three with three, two one
+let result29 = str.replace(fixRegex, replaceText)  // assigning result to variable
+console.log(result29)
+
+//Removing whitespace from start to end with regex
+let hello = "   Hello, World!  "
+let wsRegex = /^\s+|\s+$/g 
+let result30 = hello.replace(wsRegex, "") 
+console.log(result30) //equals "Hello World"
+
+
+/* Regex Summary:
+
+You can search for multiple patterns using the alternation or OR operator: |
+let petRegex = /dog|owl|bird|fish/ //operator matches patterns either before or after it
+
+The i flag matches both upper and lowercase letters, append to the regex
+let htRegex = /happytuesday/i // This regex can match the strings "HAPPYTuesday", "haPPYtuesday", and "happytuesday".
+
+The g flag allows you to search or extract a pattern more than once, append to the regex
+let strRepeat = "Repeat, Repeat, Repeat"
+let repeatRegex = /Repeat/g
+
+Can use both i and g flags together to find/extract multiple patterns and upper/lower case
+Finding and extracting both occurrences of twinkle
+let twinkleStar = "Twinkle, twinkle, little star"
+let starRegex = /Twinkle/gi // can use multiple flags on regex.  g extracts multiple patterns, i matches upper and lower cases
+
+The plus sign + looks for one or more characters
+The asterisk * looks for zero or more characters.
+let A100 = "h" + "a".repeat(100) + "h"  //repeats the letter a 100x
+
+Can extract the actual matches you found with the .match() method.
+let ourStr = "Regular expressions"
+let ourRegex = /expressions/
+ourStr.match(ourRegex)
+Returns ["expressions"]
+
+The wildcard character /./ is useful when you don't know the exact characters in a pattern. 
+let exampleStr = "Let's have fun with regular expressions!";
+let unRegex = /.un/ // will match strings "run", "sun", "fun", "pun", "nun", and "bun"
+
+Character classes allows you to define a group of characters want to match by placing them inside [] 
+To match "bag", "big", and "bug" but not "bog". Can create the regex /b[aiu]g/. 
+
+To finding vowels in a string. Also matching upper and lower case vowels
+let quoteSample = "BEware of bugs in the Above code; I have only proved it correct, nOt tried it."
+let vowelRegex = /[aeiou]/gi // 
+
+Can use hyphen character '-' to define a range of characters to match
+To match lower case letters a through e;  you would use [a-e]
+To match all letters in the alphabet in a string; you would use /[a-z]/ig
+To match a range of letters between h and s and range of numbers between 2-6; you would use /[h-s2-6]/gi
+
+Negated character sets allows you to create a set of characters that you do not want to match. 
+To create a negated character set, you place a caret character (^) after the opening bracket and before the 
+characters you do not want to match. /[^aeiou]/gi matches all characters that are not a vowel. 
+To create a regex that matches all characters that are not vowels or numbers; you would use /[^aeiou0-9]/gi 
+
+The + character allows you to match a character/or group of characters that appears one or more times.   
+The character or pattern has to be present consecutively; repeat one after the other.
+    /a+/g would find one match in "abc" and return ["a"] 
+    /a+/g would find a single match in "aabc" and return ["aa"]
+    /a+/g would find two matches in "abab" and return ["a", "a"] because there is a b between them, and the a are not consecutive
+    /a+/g would not find matches in string "bcd" because there is no "a".
+
+To find matches where the s occurs one or more times in the word Mississippi; you would use /s+/ig 
+To find matches for one or more C's in a group of letters/numbers, you would use /c+/gi.    /c/ returns ['C', 'C', 'C']
+
+The * or star method matches characters that occur zero or more times.
+To find the letters go in the word "gooooooooal!; use regex go*
+
+The ? character is used when interested in the smallest sub-string possible to fit the pattern.
+The word "titanic" matched against the adjusted regex of /t[a-z]*?i/ returns ["ti"].
+
+Can also use the ? to specify the possible existence of an element. ? checks for zero or one of the 
+preceding element. You can think of this symbol as saying the previous element is optional.Can use the question 
+mark to match both spellings of color. Saying the letter u is optional, so matching color and colour. 
+To match 'color' and 'colour'; regex = /colou?r/
+To match "favorite" and "favourite"; regex = /favou?rite/
+
+
+The ^ (caret) character is used to search for patterns at the BEGINNING of strings.
+let firstString = "Ricky is first and can be found."
+let firstRegex = /^Ricky/   returns true 
+
+The $ character searches for patterns at the END of strings.  
+let theEnding = "This is a never ending story"
+let storyRegex = /story$/ returns true
+
+Shorthand Character Classes: 
+\w shorthand is equal to [A-Za-z0-9_]; character class matches upper and lowercase letters plus numbers. 
+\W shorthand is equal to [^A-Za-z0-9_]; character class matches everything except upper/lowercase letters and numbers. 
+\d shorthand is equal to the character class [0-9];  character class matches all numbers or digits
+\D shorthand is equal to the character class [^0-9]; character class matches all NON numbers or digits
+
+\s allows for matching whitespace.  \s matches carriage return, tab, form feed, and new line characters. 
+You can think of it as similar to the character  class [ \r\t\f\n\v]. 
+let sample = "Whitespace is important in separating words"
+let countWhiteSpace = /\s/gi //looking for multiple whitespace characters in a string
+
+\S allows for matching non-whitespace characters. This pattern will not match whitespace, carriage return, tab, form feed, 
+and new line characters. You can think of it being similar to the character class [^ \r\t\f\n\v]. 
+let whiteSpace2 = "Whitespace. Whitespace everywhere!"
+let nonSpaceRegex = /\S/g
+
+Quantity specifiers: upper and lower number of matches. 
+To match only the letter 'a' appearing between 3 and 5 times in the string "ah"; regex = /a{3,5}h/.
+To match the entire phrase "Oh no" only when it has 3 to 6 letter h's; use /Oh{3,6}\sno/  \s accounts for whitespace'
+
+Quantity specifiers: lower number of matches with no upper limit. 
+To match only the string "hah" with the letter a appearing at least 3 times; regex = /ha{3,}h/
+To match only the string "Hazzzzah" with the letter z appears 4 times;  regex = /Haz{4,}ah/
+
+Quantity specifiers: specifying exact number of matches. 
+To match the word 'hah' with the letter a 3 times; regex = /ha{3}h/.
+To match the word 'Timmmmber' only when it has exactly 4 letter m's; regex = /Tim{4}ber/
+
+Lookaheads are patterns that tell JavaScript to look-ahead in your string to check for patterns further along. 
+This can be useful when you want to search for multiple patterns over the same string.
+There are two kinds of lookaheads: positive lookahead and negative lookahead.
+
+A positive lookahead will look to make sure the element in the search pattern is there, but won't actually match it.
+A positive lookahead is used as (?=...) where the ... is the required part that is not matched.
+
+A negative lookahead will look to make sure the element in the search pattern is not there. 
+A negative lookahead is used as (?!...) where the ... is the pattern that you do not want to be there. 
+
+let quRegex= /q(?=u)/ //positive lookahead; make sure u 'is' in the word quit
+let qRegex = /q(?!u)/ //negative lookahead; make sure u 'is not' in the word quit
+quit.match(quRegex) // Returns ["q"]
+noquit.match(qRegex) // Returns ["q"]
+
+Can use () to check for mixed grouping of characters. 
+To find either Penguin or Pumpkin in a string, can use the regex /P(engu|umpk)in/g
+
+Can search for repeat substrings using capture groups. Parentheses, ( and ), are used to find repeat substrings. 
+You put the regex of the pattern that will repeat in between the parentheses. To specify where that repeat string 
+will appear, you use a backslash (\) and then a number. This number starts at 1 and increases with each additional 
+capture group you use. An example would be \1 to match the first group. 
+
+To use  capture groups to match numbers that are repeated only three times in a string, each separated by a space.
+let repeatNum = "42 42 42"
+let reRegex2 = /^(\d+)\s\1\s\1$/
+
+Using the .match() method on a string will return an array with the string it matches, along with its capture group.
+
+Can search and replace text in a string using .replace() on a string. The inputs for .replace() is first the 
+regex pattern you want to search for. The second parameter is the string to replace the match or a function to 
+do something.
+
+let wrongText = "The sky is silver."
+let silverRegex = /silver/
+wrongText.replace(silverRegex, "blue")
+// Returns "The sky is blue
+
+
+*/
